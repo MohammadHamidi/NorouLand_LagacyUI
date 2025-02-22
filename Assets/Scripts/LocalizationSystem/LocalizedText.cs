@@ -11,12 +11,24 @@ public class LocalizedText : MonoBehaviour
     [SerializeField]
     private RTLTextMeshPro rtlText; // Reference to the text component
 
+    [SerializeField] private bool renameObjcet = false;
+    [SerializeField] private bool renameParent = false;
+    
     private void OnValidate()
     {
         if (!string.IsNullOrWhiteSpace(localizationKey))
         {
-            gameObject.name = localizationKey;
-            transform.parent.gameObject.name = $"TP_{localizationKey}";
+            if (renameObjcet)
+            {
+                gameObject.name = localizationKey;    
+            }
+
+            if (renameParent)
+            {
+                transform.parent.gameObject.name = $"TP_{localizationKey}";
+            }
+
+            
             if (rtlText!=null)
             {
                 rtlText.text = localizationKey;

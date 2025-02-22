@@ -1,347 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using LocalizationSystem;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using LocalizationSystem;
 using RTLTMPro;
-using UnityEngine;
+using LocalizationSystem;
 using UnityEngine.UI;
-using TMPro;
-using LocalizationSystem;
-using RTLTMPro;
 
-using UnityEngine;
-using TMPro;
-using LocalizationSystem;
-
-using UnityEngine;
-using System.Collections;
-
-public class CharacterAnimation : MonoBehaviour
-{
-    [Header("Animation Settings")]
-    [SerializeField] private float bounceDuration = 1.5f;
-    [SerializeField] private float bounceHeight = 10f;
-    [SerializeField] private AnimationCurve bounceCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-    
-    [Header("Idle Animation")]
-    [SerializeField] private float blinkInterval = 3f;
-    [SerializeField] private GameObject eyesOpen;
-    [SerializeField] private GameObject eyesClosed;
-    
-    private Vector3 originalPosition;
-    private bool isAnimating = false;
-    
-    private void Start()
-    {
-        originalPosition = transform.localPosition;
-        
-        // Start idle animations
-        StartCoroutine(BlinkRoutine());
-        StartCoroutine(BounceRoutine());
-    }
-    
-    private IEnumerator BlinkRoutine()
-    {
-        while (true)
-        {
-            // Random time between blinks
-            float waitTime = Random.Range(blinkInterval * 0.7f, blinkInterval * 1.3f);
-            yield return new WaitForSeconds(waitTime);
-            
-            // Blink
-            if (eyesOpen != null && eyesClosed != null)
-            {
-                eyesOpen.SetActive(false);
-                eyesClosed.SetActive(true);
-                
-                // Blink duration
-                yield return new WaitForSeconds(0.15f);
-                
-                eyesOpen.SetActive(true);
-                eyesClosed.SetActive(false);
-            }
-        }
-    }
-    
-    private IEnumerator BounceRoutine()
-    {
-        while (true)
-        {
-            // Wait before starting bounce
-            yield return new WaitForSeconds(Random.Range(1f, 3f));
-            
-            float elapsedTime = 0f;
-            
-            while (elapsedTime < bounceDuration)
-            {
-                float normalizedTime = elapsedTime / bounceDuration;
-                float curveValue = bounceCurve.Evaluate(normalizedTime);
-                float yOffset = bounceHeight * curveValue;
-                
-                transform.localPosition = originalPosition + new Vector3(0f, yOffset, 0f);
-                
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            
-            // Reset position
-            transform.localPosition = originalPosition;
-        }
-    }
-    
-    // Call this from buttons to trigger a happy reaction
-    public void PlayHappyReaction()
-    {
-        if (!isAnimating)
-        {
-            StartCoroutine(HappyReactionRoutine());
-        }
-    }
-    
-    private IEnumerator HappyReactionRoutine()
-    {
-        isAnimating = true;
-        
-        // Play a quick bounce animation
-        float duration = 0.5f;
-        float height = bounceHeight * 1.5f;
-        
-        float elapsedTime = 0f;
-        while (elapsedTime < duration)
-        {
-            float normalizedTime = elapsedTime / duration;
-            float curveValue = Mathf.Sin(normalizedTime * Mathf.PI);
-            float yOffset = height * curveValue;
-            
-            transform.localPosition = originalPosition + new Vector3(0f, yOffset, 0f);
-            
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        
-        transform.localPosition = originalPosition;
-        isAnimating = false;
-    }
-}
-public class RTLInputField : MonoBehaviour
-{
-    [SerializeField] private TMP_InputField inputField;
-    [SerializeField] private RectTransform placeholderTransform;
-    
-    private void Start()
-    {
-        if (inputField == null)
-        {
-            inputField = GetComponent<TMP_InputField>();
-        }
-        
-        // Setup initial direction
-        UpdateInputDirection();
-        
-        // Subscribe to language changes
-        if (LocalizationManager.Instance != null)
-        {
-            LocalizationManager.Instance.OnLanguageChanged += UpdateInputDirection;
-        }
-    }
-    
-    private void OnDestroy()
-    {
-        // Unsubscribe from events
-        if (LocalizationManager.Instance != null)
-        {
-            LocalizationManager.Instance.OnLanguageChanged -= UpdateInputDirection;
-        }
-    }
-    
-    private void UpdateInputDirection()
-    {
-        if (LocalizationManager.Instance != null && inputField != null)
-        {
-            var isRTL = LocalizationManager.Instance.IsCurrentLanguageRTL();
-            
-            // Set text alignment
-            if (isRTL)
-            {
-                inputField.textComponent.alignment = TextAlignmentOptions.Right;
-                if (inputField.placeholder is TextMeshProUGUI placeholder)
-                {
-                    placeholder.alignment = TextAlignmentOptions.Right;
-                }
-                
-                // Adjust placeholder position if needed
-                if (placeholderTransform != null)
-                {
-                    Vector2 anchoredPosition = placeholderTransform.anchoredPosition;
-                    placeholderTransform.anchoredPosition = new Vector2(-Mathf.Abs(anchoredPosition.x), anchoredPosition.y);
-                }
-            }
-            else
-            {
-                inputField.textComponent.alignment = TextAlignmentOptions.Left;
-                if (inputField.placeholder is TextMeshProUGUI placeholder)
-                {
-                    placeholder.alignment = TextAlignmentOptions.Left;
-                }
-                
-                // Adjust placeholder position if needed
-                if (placeholderTransform != null)
-                {
-                    Vector2 anchoredPosition = placeholderTransform.anchoredPosition;
-                    placeholderTransform.anchoredPosition = new Vector2(Mathf.Abs(anchoredPosition.x), anchoredPosition.y);
-                }
-            }
-        }
-    }
-}
-
-
-public class AgeSelectionButton : MonoBehaviour
-{
-    [Header("Settings")]
-    [SerializeField] private int ageGroupIndex; // 0: Under 5, 1: 5-7, 2: More than 7
-    [SerializeField] private RTLTextMeshPro ageText;
-    [SerializeField] private Image buttonBackground;
-    [SerializeField] private Button button;
-    
-    [Header("Visual States")]
-    [SerializeField] private Color selectedColor = new Color(1f, 0.6f, 0f); // Orange
-    [SerializeField] private Color deselectedColor = new Color(0.95f, 0.95f, 0.95f); // Light gray
-    [SerializeField] private Color selectedTextColor = Color.white;
-    [SerializeField] private Color deselectedTextColor = Color.black;
-    
-    private OnboardingFlowManager flowManager;
-    private bool isSelected = false;
-    
-    private void Start()
-    {
-        // Get reference to flow manager
-        flowManager = FindObjectOfType<OnboardingFlowManager>();
-        
-        // Setup button click event
-        if (button != null)
-        {
-            button.onClick.AddListener(OnButtonClick);
-        }
-        
-        // Set initial visual state
-        UpdateVisualState(false);
-    }
-    
-    private void OnButtonClick()
-    {
-        // Update selection in manager
-        if (flowManager != null)
-        {
-            flowManager.SetChildAge(ageGroupIndex);
-        }
-        
-        // Deselect all siblings
-        Transform parent = transform.parent;
-        if (parent != null)
-        {
-            foreach (Transform child in parent)
-            {
-                AgeSelectionButton otherButton = child.GetComponent<AgeSelectionButton>();
-                if (otherButton != null && otherButton != this)
-                {
-                    otherButton.SetSelected(false);
-                }
-            }
-        }
-        
-        // Select this button
-        SetSelected(true);
-    }
-    
-    public void SetSelected(bool selected)
-    {
-        isSelected = selected;
-        UpdateVisualState(selected);
-    }
-    
-    private void UpdateVisualState(bool selected)
-    {
-        if (buttonBackground != null)
-        {
-            buttonBackground.color = selected ? selectedColor : deselectedColor;
-        }
-        
-        if (ageText != null)
-        {
-            ageText.color = selected ? selectedTextColor : deselectedTextColor;
-        }
-    }
-}
-public class LearningGoalItem : MonoBehaviour
-{
-    [Header("Settings")]
-    [SerializeField] private string goalId;
-    [SerializeField] private Image iconImage;
-    [SerializeField] private RTLTextMeshPro goalText;
-    [SerializeField] private Toggle goalToggle;
-    [SerializeField] private Image selectionBackground;
-    
-    [Header("Visual States")]
-    [SerializeField] private Color selectedColor = new Color(0.95f, 0.95f, 0.95f);
-    [SerializeField] private Color deselectedColor = new Color(0.9f, 0.9f, 0.9f);
-    
-    private OnboardingFlowManager flowManager;
-    
-    private void Start()
-    {
-        // Get reference to the flow manager
-        flowManager = FindObjectOfType<OnboardingFlowManager>();
-        
-        // Setup toggle callback
-        if (goalToggle != null)
-        {
-            goalToggle.onValueChanged.AddListener(OnToggleValueChanged);
-        }
-        
-        // Set initial visual state
-        UpdateVisualState(goalToggle.isOn);
-    }
-    
-    private void OnToggleValueChanged(bool isOn)
-    {
-        // Update in the manager
-        if (flowManager != null)
-        {
-            flowManager.ToggleLearningGoal(goalId);
-        }
-        
-        // Update visual state
-        UpdateVisualState(isOn);
-    }
-    
-    private void UpdateVisualState(bool isSelected)
-    {
-        if (selectionBackground != null)
-        {
-            selectionBackground.color = isSelected ? selectedColor : deselectedColor;
-        }
-        
-        // Could also animate scale or add visual effects here
-    }
-}
 public class OnboardingFlowManager : MonoBehaviour
 {
     [Header("Pages")]
     [SerializeField] private List<GameObject> pageObjects = new List<GameObject>();
     
     [Header("Navigation")]
-    [SerializeField] private Button nextButton;
-    [SerializeField] private Button previousButton;
     [SerializeField] private Button continueButton;
+    [SerializeField] private Button backButton; // This is the back arrow
     
-    [Header("Progress Indicators")]
-    [SerializeField] private List<GameObject> progressIndicators = new List<GameObject>();
+    [Header("Indicators")]
+    [SerializeField] private QuestionsIndicator questionsIndicator;
     
     [Header("References")]
     [SerializeField] private TMPro.TMP_InputField nameInputField;
@@ -357,6 +34,10 @@ public class OnboardingFlowManager : MonoBehaviour
     
     private void Start()
     {
+        // Find components if not assigned
+        if (questionsIndicator == null)
+            questionsIndicator = FindObjectOfType<QuestionsIndicator>();
+            
         // Initialize UI direction based on current language
         UpdateUIDirection();
         
@@ -370,14 +51,11 @@ public class OnboardingFlowManager : MonoBehaviour
         ShowPage(0);
         
         // Setup buttons
-        if (nextButton != null)
-            nextButton.onClick.AddListener(GoToNextPage);
-        
-        if (previousButton != null)
-            previousButton.onClick.AddListener(GoToPreviousPage);
-            
         if (continueButton != null)
-            continueButton.onClick.AddListener(GoToNextPage);
+            continueButton.onClick.AddListener(OnContinueButtonClicked);
+        
+        if (backButton != null)
+            backButton.onClick.AddListener(OnBackButtonClicked);
     }
     
     private void OnDestroy()
@@ -453,67 +131,81 @@ public class OnboardingFlowManager : MonoBehaviour
         pageObjects[pageIndex].SetActive(true);
         currentPageIndex = pageIndex;
         
-        // Update progress indicators
-        UpdateProgressIndicators();
-        
-        // Update navigation buttons
-        UpdateNavigationButtons();
-    }
-    
-    private void UpdateProgressIndicators()
-    {
-        for (int i = 0; i < progressIndicators.Count; i++)
+        // Update the questions indicator
+        if (questionsIndicator != null)
         {
-            if (i < currentPageIndex)
-            {
-                // Completed step
-                progressIndicators[i].GetComponent<Image>().color = new Color(1f, 0.6f, 0f); // Orange
-            }
-            else if (i == currentPageIndex)
-            {
-                // Current step
-                progressIndicators[i].GetComponent<Image>().color = new Color(1f, 0.6f, 0f); // Orange
-            }
-            else
-            {
-                // Future step
-                progressIndicators[i].GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f); // Gray
-            }
-        }
-    }
-    
-    private void UpdateNavigationButtons()
-    {
-        if (previousButton != null)
-        {
-            previousButton.gameObject.SetActive(currentPageIndex > 0);
+            questionsIndicator.SetCurrentStep(currentPageIndex);
         }
         
-        if (nextButton != null && continueButton != null)
+        // Update navigation
+        UpdateNavigationState();
+        
+        // Check if current page inputs are valid
+        ValidateCurrentPageInputs();
+    }
+    
+    private void UpdateNavigationState()
+    {
+        // Back button should only be visible if not on first page
+        if (backButton != null)
         {
-            nextButton.gameObject.SetActive(currentPageIndex < pageObjects.Count - 1);
-            continueButton.gameObject.SetActive(currentPageIndex == pageObjects.Count - 1);
+            backButton.gameObject.SetActive(currentPageIndex > 0);
         }
     }
     
-    public void GoToNextPage()
+    // This checks if the requirements for the current page are met
+    private void ValidateCurrentPageInputs()
     {
-        // Save data from current page
+        bool inputsValid = false;
+        
+        switch (currentPageIndex)
+        {
+            case 0: // Name page
+                // Enable continue button only if name is entered
+                inputsValid = nameInputField != null && !string.IsNullOrWhiteSpace(nameInputField.text);
+                break;
+                
+            case 1: // Age page
+                // Enable continue if an age option has been selected
+                inputsValid = childAge >= 0; // Assuming childAge is set when an option is selected
+                break;
+                
+            case 2: // Learning goals page
+                // Enable continue if at least one goal is selected
+                inputsValid = selectedLearningGoals.Count > 0;
+                break;
+                
+            case 3: // Phone number page
+                // Phone might be optional (there's a "Remind me later" button)
+                inputsValid = true;
+                break;
+        }
+        
+        // Enable/disable continue button based on validation
+        if (continueButton != null)
+        {
+            continueButton.interactable = inputsValid;
+        }
+    }
+    
+    private void OnContinueButtonClicked()
+    {
+        // Save current page data
         SaveCurrentPageData();
         
-        // Move to next page
+        // Move to next page or finish
         if (currentPageIndex < pageObjects.Count - 1)
         {
             ShowPage(currentPageIndex + 1);
         }
         else
         {
-            // This is the last page, complete the onboarding
+            // Last page, complete onboarding
             CompleteOnboarding();
         }
     }
     
-    public void GoToPreviousPage()
+    private void OnBackButtonClicked()
     {
         if (currentPageIndex > 0)
         {
@@ -541,16 +233,22 @@ public class OnboardingFlowManager : MonoBehaviour
                 break;
                 
             case 3: // Phone number page
-                // Phone number is handled by input field
+                if (phoneInputField != null)
+                {
+                    // Store phone number directly from the input field
+                }
                 break;
         }
     }
     
+    // Public method to be called from age selection buttons
     public void SetChildAge(int age)
     {
         childAge = age;
+        ValidateCurrentPageInputs(); // Re-validate to enable continue button
     }
     
+    // Public method to be called from learning goal toggles
     public void ToggleLearningGoal(string goalId)
     {
         if (selectedLearningGoals.Contains(goalId))
@@ -561,6 +259,21 @@ public class OnboardingFlowManager : MonoBehaviour
         {
             selectedLearningGoals.Add(goalId);
         }
+        
+        ValidateCurrentPageInputs(); // Re-validate to enable continue button
+    }
+    
+    // Called when text fields change
+    public void OnInputFieldValueChanged()
+    {
+        ValidateCurrentPageInputs(); // Re-validate to enable continue button
+    }
+    
+    // Public method for "Remind me later" button
+    public void OnRemindMeLaterClicked()
+    {
+        // Skip phone number requirement and continue
+        CompleteOnboarding();
     }
     
     private void CompleteOnboarding()
@@ -569,7 +282,12 @@ public class OnboardingFlowManager : MonoBehaviour
         PlayerPrefs.SetString("ChildName", childName);
         PlayerPrefs.SetInt("ChildAge", childAge);
         PlayerPrefs.SetString("LearningGoals", string.Join(",", selectedLearningGoals));
-        PlayerPrefs.SetString("PhoneNumber", phoneInputField.text);
+        
+        if (phoneInputField != null && !string.IsNullOrEmpty(phoneInputField.text))
+        {
+            PlayerPrefs.SetString("PhoneNumber", phoneInputField.text);
+        }
+        
         PlayerPrefs.Save();
         
         // Proceed to main application
