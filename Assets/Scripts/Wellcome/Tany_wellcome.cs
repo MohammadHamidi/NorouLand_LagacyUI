@@ -48,7 +48,7 @@ public class Tany_wellcome : MonoBehaviour
 
         // At the same time, add an up–down movement using Insert:
         // The movement will move the object up by 'moveDistance' then return to original position (Yoyo)
-        animationSequence.Insert(0, transform.DOLocalMoveY(transform.position.y + moveDistance, moveDuration).SetEase(Ease.InOutSine).SetLoops(2, LoopType.Yoyo));
+        animationSequence.Insert(0, transform.DOLocalMoveY(transform.position.y + moveDistance, moveDuration).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo));
 
         // If looping is desired, loop the sequence indefinitely.
         if (loopIndefinitely)

@@ -22,7 +22,7 @@ namespace LocalizationSystem
                 { "welcome_title", "Welcome to Noroland" },
                 { "app_description", "Noroland" },
                 { "get_ready", "Getting ready to make learning fun" },
-                { "who_uses_app", "Who will be using the app?" },
+                { "who_uses_app", "Who is here??" },
                 { "child_option", "Child" },
                 { "parent_option", "Parent" },
 
@@ -47,7 +47,7 @@ namespace LocalizationSystem
                 { "child_personalization", "Child Profile Customization" },
                 { "select_age", "Select Appropriate Age" },
                 { "start_learning", "Begin Learning" },
-                { "continue_progress", "Continue Progress" },
+                { "continue_progress", "Continue" },
                 // Graph 
                 { "memory", "Memory" },
                 { "language", "Language" },
