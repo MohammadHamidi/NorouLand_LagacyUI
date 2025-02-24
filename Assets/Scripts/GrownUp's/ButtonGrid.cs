@@ -42,7 +42,8 @@ public class ButtonGrid : MonoBehaviour
     [Header("Special Layout Options")]
     [Tooltip("If true, the grid will omit the '0' button from the main sequence and instead create a final row with an empty cell, the '0' button, and the delete button.")]
     [SerializeField] private bool centerZero = true;
-
+    
+    [SerializeField] NumberPlaceholders numberPlaceholders;
     // All digits from 1 to 0.
     private readonly string[] allDigits = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 
@@ -258,12 +259,12 @@ public class ButtonGrid : MonoBehaviour
     private void OnDigitButtonPressed(string digit)
     {
         Debug.Log("Digit pressed: " + digit);
-        // TODO: Integrate with your input handling logic.
+        numberPlaceholders.SetDigit(digit[0]);
     }
 
     private void OnDeleteButtonPressed()
     {
         Debug.Log("Delete pressed");
-        // TODO: Integrate with your input handling logic.
+        numberPlaceholders.RemoveLastDigit();
     }
 }
