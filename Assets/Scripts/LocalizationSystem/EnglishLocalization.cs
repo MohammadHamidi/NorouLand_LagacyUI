@@ -25,6 +25,7 @@ namespace LocalizationSystem
                 { "who_uses_app", "Who is here??" },
                 { "child_option", "Child" },
                 { "parent_option", "Parent" },
+                { "save_60_percent", "Save <color=#FFA500>60%</color> on the yearly plan" },
 
                 // Subscription Screen
                 { "today_investment", "Invest today (NAME)" },

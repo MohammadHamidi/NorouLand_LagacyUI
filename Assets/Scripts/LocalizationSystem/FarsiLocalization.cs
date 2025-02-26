@@ -23,6 +23,7 @@ namespace LocalizationSystem
                 { "who_uses_app", "چه کسی از برنامه استفاده میکند؟" },
                 { "child_option", "کودک" },
                 { "parent_option", "والدین" },
+                { "save_60_percent", "با پلن سالانه <color=#FFA500>۶۰٪</color> کمتر هزینه کن" },
 
                 // Subscription Screen
                 { "today_investment", "امروز روی آینده‌ی (اسم) سرمایه‌گذاری کن" },
