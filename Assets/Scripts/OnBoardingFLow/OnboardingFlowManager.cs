@@ -66,6 +66,24 @@ public class OnboardingFlowManager : MonoBehaviour
             LocalizationManager.Instance.OnLanguageChanged -= UpdateUIDirection;
         }
     }
+    // Add this public method to OnboardingFlowManager
+    public void ContinueToNextPage()
+    {
+        Debug.LogError($"Continue Button Clicked");
+        // Save current page data
+        SaveCurrentPageData();
+    
+        // Move to next page or finish
+        if (currentPageIndex < pageObjects.Count - 1)
+        {
+            ShowPage(currentPageIndex + 1);
+        }
+        else
+        {
+            // Last page, complete onboarding
+            CompleteOnboarding();
+        }
+    }
     
     private void UpdateUIDirection()
     {

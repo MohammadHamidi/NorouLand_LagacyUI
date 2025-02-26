@@ -99,13 +99,14 @@ namespace LocalizationSystem
                 { "continue_with_plan", "ادامه با این پلن" },
                 { "monthly_label_3m", "ماهیانه" },
                 { "affordable", "مقرون به صرفه" },
-
+                { "age_personalization_subtitle", "ما مسیر رو بر اساس این سن شخصی‌سازی می‌کنیم." },
                 // Onboarding progress
                 { "personalized_experience_detail", "بر اساس نیازهای فرزندت، مسیر مخصوص خودش رو آماده کردیم" },
                 { "plan_selection_detail", "پلن مناسب رو انتخاب کن" },
                 { "adventure_start_detail", "به بازی‌های نامحدود دسترسی پیدا کن و از زبان و ریاضی تا مهارت‌های زندگی رو تقویت کن." },
                 { "progress_tracking_detail", "رشد فرزندت رو قدم به قدم دنبال کن، نورولند توی تمام این مسیر همراهته." },
                 { "trial_offer", "۳ ماه با نورولند همراه باش" },
+                { "select_all_that_apply", "تمام مواردی که میخواین رو انتخاب کنید." },
 
                 // Contact info screen
                 { "stay_updated", "در جریان پیشرفت (اسم)؟ باش" },

@@ -48,6 +48,7 @@ namespace LocalizationSystem
                 { "select_age", "Select Appropriate Age" },
                 { "start_learning", "Begin Learning" },
                 { "continue_progress", "Continue" },
+                { "select_all_that_apply", "Select everything that applies." },
                 // Graph 
                 { "memory", "Memory" },
                 { "language", "Language" },
@@ -59,7 +60,7 @@ namespace LocalizationSystem
                 { "view_all_plans", "View All Plans" },
                 { "start_3_day_trial", "Start 3-Day Free Trial" },
                 { "next_button", "Next" },
-
+                { "age_personalization_subtitle", "We'll personalize the experience for this age." },
                 // Parent info screen
                 { "parent_info_title", "Information for Parents and Guardians" },
                 { "info_summary", "To all informed parents and guardians, welcome to Noroland!" },
