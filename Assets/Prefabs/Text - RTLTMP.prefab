@@ -60,6 +60,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localizationKey: 
   rtlText: {fileID: 4635975767362879223}
+  renameObjcet: 0
+  renameParent: 0
+  ltrRegularFont: {fileID: 11400000, guid: 3a89a8aa3642d4f229e684af70f14332, type: 2}
+  ltrBoldFont: {fileID: 11400000, guid: e754bb945abd34fbb8bde1d3f4ed55e0, type: 2}
+  ltrLightFont: {fileID: 11400000, guid: c8a5f723fd74e4785a1648c3d6bd283f, type: 2}
+  rtlRegularFont: {fileID: 11400000, guid: c2453496317bb4e139b0862573915267, type: 2}
+  rtlBoldFont: {fileID: 11400000, guid: 857ec29a29c874ac2af859adacdd50ff, type: 2}
+  rtlLightFont: {fileID: 11400000, guid: 21dcf77a71ba14619889cc410156c284, type: 2}
+  currentFontStyle: 0
+  highlightText: 60%
+  highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
+  isClickable: 0
+  linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
+  onLinkClicked:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4635975767362879223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +123,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 259.25
+  m_fontSize: 77.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -65,8 +65,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u06F2"
-  m_isRightToLeft: 1
+  m_text: 2
+  m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4b636f3478c1547fbb6a15a5664597dc, type: 2}
   m_sharedMaterial: {fileID: 2255892963454048491, guid: 4b636f3478c1547fbb6a15a5664597dc, type: 2}
   m_fontSharedMaterials: []
@@ -138,7 +138,7 @@ MonoBehaviour:
   farsi: 1
   originalText: 2
   fixTags: 1
-  forceFix: 1
+  forceFix: 0
 --- !u!1 &1965414189760133430
 GameObject:
   m_ObjectHideFlags: 0

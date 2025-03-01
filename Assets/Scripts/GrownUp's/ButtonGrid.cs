@@ -3,10 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
-
-using UnityEngine;
-using UnityEngine.UI;
+using LocalizationSystem;
 
 #if UNITY_EDITOR
 
@@ -43,9 +40,12 @@ public class ButtonGrid : MonoBehaviour
     [Tooltip("If true, the grid will omit the '0' button from the main sequence and instead create a final row with an empty cell, the '0' button, and the delete button.")]
     [SerializeField] private bool centerZero = true;
     
-    [SerializeField] NumberPlaceholders numberPlaceholders;
-    // All digits from 1 to 0.
-    private readonly string[] allDigits = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+    [SerializeField] private NumberPlaceholders numberPlaceholders;
+    
+    // All digit keys for the localization system
+    private readonly string[] digitKeys = new string[] { "number_1", "number_2", "number_3", "number_4", "number_5", "number_6", "number_7", "number_8", "number_9", "number_0" };
+    // Raw digit values for internal use
+    private readonly string[] rawDigits = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 
     // The starting position for the grid's first cell (row 0, col 0) in local space.
     private Vector2 gridStart = Vector2.zero;
@@ -61,6 +61,21 @@ public class ButtonGrid : MonoBehaviour
     {
         if (container == null)
             container = GetComponent<RectTransform>();
+            
+        // Verify the numberPlaceholders reference
+        if (numberPlaceholders == null)
+        {
+            Debug.LogError("NumberPlaceholders reference is missing in ButtonGrid script!", this);
+            numberPlaceholders = FindObjectOfType<NumberPlaceholders>();
+            if (numberPlaceholders == null)
+            {
+                Debug.LogError("Could not find NumberPlaceholders in the scene!", this);
+            }
+            else
+            {
+                Debug.Log("Found NumberPlaceholders in the scene and assigned it.", this);
+            }
+        }
     }
 
     private IEnumerator Start()
@@ -68,6 +83,43 @@ public class ButtonGrid : MonoBehaviour
         // Wait for one frame so that the parent's layout is updated.
         yield return new WaitForEndOfFrame();
         CreateGrid();
+        
+        // Subscribe to language change event to update button texts
+        if (LocalizationManager.Instance != null)
+        {
+            LocalizationManager.Instance.OnLanguageChanged += UpdateButtonTexts;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        // Unsubscribe from language change event
+        if (LocalizationManager.Instance != null)
+        {
+            LocalizationManager.Instance.OnLanguageChanged -= UpdateButtonTexts;
+        }
+    }
+
+    // Update button texts when language changes
+    private void UpdateButtonTexts()
+    {
+        if (container == null) return;
+        
+        // Update digit buttons
+        for (int i = 0; i < rawDigits.Length; i++)
+        {
+            Transform buttonTransform = container.Find("Button_" + rawDigits[i]);
+            if (buttonTransform != null)
+            {
+                TMP_Text label = buttonTransform.GetComponentInChildren<TMP_Text>();
+                if (label != null)
+                {
+                    // Get localized version of the digit
+                    string localizedDigit = LocalizationManager.Instance.GetLocalizedValue(digitKeys[i]);
+                    label.text = localizedDigit;
+                }
+            }
+        }
     }
 
     // Optionally, update the grid if the parent's dimensions change.
@@ -90,6 +142,13 @@ public class ButtonGrid : MonoBehaviour
 
     private void CreateGrid()
     {
+        // Check if numberPlaceholders is still null (double-check)
+        if (numberPlaceholders == null)
+        {
+            Debug.LogError("NumberPlaceholders is still null when creating the grid!", this);
+            return;
+        }
+        
         // Clear existing buttons.
         for (int i = container.childCount - 1; i >= 0; i--)
         {
@@ -104,7 +163,7 @@ public class ButtonGrid : MonoBehaviour
         }
         else
         {
-            int totalButtons = allDigits.Length + 1; // +1 for delete button.
+            int totalButtons = rawDigits.Length + 1; // +1 for delete button.
             rowCount = Mathf.CeilToInt(totalButtons / (float)columns);
         }
 
@@ -134,7 +193,7 @@ public class ButtonGrid : MonoBehaviour
             for (int i = 0; i < totalDigits; i++)
             {
                 GameObject btnGO = Instantiate(digitButtonPrefab, container);
-                btnGO.name = "Button_" + allDigits[i];
+                btnGO.name = "Button_" + rawDigits[i];
                 int row = i / columns;
                 int col = i % columns;
                 Vector2 pos = CalculatePosition(row, col);
@@ -145,14 +204,19 @@ public class ButtonGrid : MonoBehaviour
                 TMP_Text label = btnGO.GetComponentInChildren<TMP_Text>();
                 if (label != null)
                 {
-                    label.text = allDigits[i];
+                    // Get localized version of the digit
+                    string localizedDigit = LocalizationManager.Instance != null 
+                        ? LocalizationManager.Instance.GetLocalizedValue(digitKeys[i]) 
+                        : rawDigits[i];
+                    label.text = localizedDigit;
                 }
 
                 Button btn = btnGO.GetComponent<Button>();
                 if (btn != null)
                 {
-                    string digit = allDigits[i];
-                    btn.onClick.AddListener(() => OnDigitButtonPressed(digit));
+                    int digitIndex = i; // Capture the index in a local variable
+                    btn.onClick.RemoveAllListeners(); // Clear any existing listeners
+                    btn.onClick.AddListener(() => OnDigitButtonPressed(rawDigits[digitIndex]));
                 }
             }
 
@@ -174,11 +238,16 @@ public class ButtonGrid : MonoBehaviour
             TMP_Text zeroLabel = zeroButtonGO.GetComponentInChildren<TMP_Text>();
             if (zeroLabel != null)
             {
-                zeroLabel.text = "0";
+                // Get localized version of 0
+                string localizedZero = LocalizationManager.Instance != null 
+                    ? LocalizationManager.Instance.GetLocalizedValue("number_0") 
+                    : "0";
+                zeroLabel.text = localizedZero;
             }
             Button zeroBtn = zeroButtonGO.GetComponent<Button>();
             if (zeroBtn != null)
             {
+                zeroBtn.onClick.RemoveAllListeners(); // Clear any existing listeners
                 zeroBtn.onClick.AddListener(() => OnDigitButtonPressed("0"));
             }
 
@@ -191,19 +260,20 @@ public class ButtonGrid : MonoBehaviour
             Button delBtn = deleteButtonGO.GetComponent<Button>();
             if (delBtn != null)
             {
+                delBtn.onClick.RemoveAllListeners(); // Clear any existing listeners
                 delBtn.onClick.AddListener(OnDeleteButtonPressed);
             }
         }
         else
         {
             // Place all digits (1 to 0) and then the delete button in sequential order.
-            int totalButtons = allDigits.Length + 1;
+            int totalButtons = rawDigits.Length + 1;
             for (int i = 0; i < totalButtons; i++)
             {
-                if (i < allDigits.Length)
+                if (i < rawDigits.Length)
                 {
                     GameObject btnGO = Instantiate(digitButtonPrefab, container);
-                    btnGO.name = "Button_" + allDigits[i];
+                    btnGO.name = "Button_" + rawDigits[i];
                     int row = i / columns;
                     int col = i % columns;
                     RectTransform rt = btnGO.GetComponent<RectTransform>();
@@ -213,14 +283,19 @@ public class ButtonGrid : MonoBehaviour
                     TMP_Text label = btnGO.GetComponentInChildren<TMP_Text>();
                     if (label != null)
                     {
-                        label.text = allDigits[i];
+                        // Get localized version of the digit
+                        string localizedDigit = LocalizationManager.Instance != null 
+                            ? LocalizationManager.Instance.GetLocalizedValue(digitKeys[i]) 
+                            : rawDigits[i];
+                        label.text = localizedDigit;
                     }
 
                     Button btn = btnGO.GetComponent<Button>();
                     if (btn != null)
                     {
-                        string digit = allDigits[i];
-                        btn.onClick.AddListener(() => OnDigitButtonPressed(digit));
+                        int digitIndex = i; // Capture the index in a local variable
+                        btn.onClick.RemoveAllListeners(); // Clear any existing listeners
+                        btn.onClick.AddListener(() => OnDigitButtonPressed(rawDigits[digitIndex]));
                     }
                 }
                 else
@@ -236,6 +311,7 @@ public class ButtonGrid : MonoBehaviour
                     Button btn = deleteButtonGO.GetComponent<Button>();
                     if (btn != null)
                     {
+                        btn.onClick.RemoveAllListeners(); // Clear any existing listeners
                         btn.onClick.AddListener(OnDeleteButtonPressed);
                     }
                 }
@@ -255,16 +331,46 @@ public class ButtonGrid : MonoBehaviour
         return gridStart + new Vector2(xPos, -yPos);
     }
 
-    // Example methods for button actions:
+    // Methods for button actions:
     private void OnDigitButtonPressed(string digit)
     {
+        Debug.Log($"DIGIT BUTTON");
+        
+        if (numberPlaceholders == null)
+        {
+            Debug.LogError("NumberPlaceholders is null when trying to set digit: " + digit, this);
+            return;
+        }
+        
         Debug.Log("Digit pressed: " + digit);
-        numberPlaceholders.SetDigit(digit[0]);
+        
+        try
+        {
+            numberPlaceholders.SetDigit(digit[0]);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error setting digit '{digit}': {ex.Message}", this);
+        }
     }
 
     private void OnDeleteButtonPressed()
     {
+        if (numberPlaceholders == null)
+        {
+            Debug.LogError("NumberPlaceholders is null when trying to delete a digit", this);
+            return;
+        }
+        
         Debug.Log("Delete pressed");
-        numberPlaceholders.RemoveLastDigit();
+        
+        try
+        {
+            numberPlaceholders.RemoveLastDigit();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error removing last digit: {ex.Message}", this);
+        }
     }
 }

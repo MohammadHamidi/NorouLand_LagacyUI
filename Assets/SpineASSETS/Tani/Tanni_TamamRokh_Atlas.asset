@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+  m_Name: Tanni_TamamRokh_Atlas
+  m_EditorClassIdentifier: 
+  atlasFile: {fileID: 4900000, guid: bd9f06adf9f79c04a8144276ecbc574e, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 7af9a6e084f291942a2244c64acc89fe, type: 2}
+  - {fileID: 2100000, guid: e6715dd9c77f8554980151781005a6d2, type: 2}
+  - {fileID: 2100000, guid: 5608d8e580b89574794f33dfda4685d9, type: 2}
+  - {fileID: 2100000, guid: cb14c8be5a35df14d94b5f8b9e8dec2b, type: 2}

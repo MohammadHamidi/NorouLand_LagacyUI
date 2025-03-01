@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 namespace LocalizationSystem
 {
     
@@ -24,7 +26,7 @@ namespace LocalizationSystem
         
 
             // Set default language (English)
-            SetLanguage(LanguageOption.English);
+            SetLanguage(LanguageOption.Farsi);
         }
 
         public void SetLanguage(LanguageOption lang)

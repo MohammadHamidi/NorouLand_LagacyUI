@@ -31,7 +31,7 @@ public class UIController_WelcomeScreen : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Hi");
+
         // Ensure elements start at correct visibility
         SetCanvasGroupAlpha(textA1, 0);
         SetCanvasGroupAlpha(textA2, 0);
