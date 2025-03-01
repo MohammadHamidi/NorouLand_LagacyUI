@@ -21,14 +21,7 @@ public class ReviewCardItem : MonoBehaviour
     // Internal state
     private ReviewData currentReviewData;
     
-    [System.Serializable]
-    public class ReviewData
-    {
-        public string reviewerName;
-        public string reviewContent;
-        public Sprite reviewerAvatar;
-        public int rating; // Out of 5 stars
-    }
+  
     
     public void Init(ReviewData data)
     {
@@ -37,13 +30,13 @@ public class ReviewCardItem : MonoBehaviour
         // Set name
         if (reviewerNameText != null)
         {
-            reviewerNameText.text = data.reviewerName;
+            reviewerNameText.text = data.ReviewerName;
         }
         
         // Set review content
         if (reviewContentText != null)
         {
-            reviewContentText.text = data.reviewContent;
+            reviewContentText.text = data.ReviewText;
         }
         
         // Set avatar
@@ -58,8 +51,8 @@ public class ReviewCardItem : MonoBehaviour
             reviewerAvatar.gameObject.SetActive(false);
         }
         
-        // Setup star rating
-        SetupStarRating(data.rating);
+        // Setup star Rating
+        // SetupStarRating(data.Rating);
     }
     
     private void SetupStarRating(int rating)
@@ -75,7 +68,7 @@ public class ReviewCardItem : MonoBehaviour
         {
             Image star = Instantiate(starPrefab, starContainer);
             
-            // Set color based on rating (i.e., 4-star rating means first 4 stars are active)
+            // Set color based on Rating (i.e., 4-star Rating means first 4 stars are active)
             star.color = i < rating ? activeStarColor : inactiveStarColor;
         }
     }
@@ -103,5 +96,23 @@ public class ReviewCardItem : MonoBehaviour
     public float GetWidth()
     {
         return rectTransform != null ? rectTransform.rect.width : 0f;
+    }
+
+    public float GetHorizontalPosition()
+    {
+        if (rectTransform != null)
+        {
+            return rectTransform.anchoredPosition.x;
+        }
+        return 0f;
+    }
+
+    public float GetAlpha()
+    {
+        if (canvasGroup != null)
+        {
+            return canvasGroup.alpha;
+        }
+        return 0f;
     }
 }

@@ -13,6 +13,34 @@ public enum FontStyle
     Light
 }
 
+public enum TextDirection
+{
+    Auto,
+    ForceLTR,
+    ForceRTL
+}
+
+public enum TextAlignment
+{
+    Auto,
+    Left,
+    Center,
+    Right,
+    DirectionSpecific
+}
+
+/// <summary>
+/// Common alignment patterns for RTL/LTR text
+/// </summary>
+public enum AlignmentPattern
+{
+    NaturalAlignment, // LTR=Left, RTL=Right (follows reading direction)
+    ReverseAlignment, // LTR=Right, RTL=Left (opposite of reading direction)
+    AllCenter,        // Center alignment for both
+    AllLeft,          // Force left alignment for both
+    AllRight          // Force right alignment for both
+}
+
 public class LocalizedText : MonoBehaviour, IPointerClickHandler
 {
     [Header("Localization Settings")]
@@ -23,8 +51,18 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
     [SerializeField] private bool renameParent = false;
 
     [Header("Direction Settings")]
-    [Tooltip("If true, text direction updates (RTL/LTR) will be ignored.")]
-    [SerializeField] private bool ignoreTextDirection = false;
+    [Tooltip("Control how text direction (RTL/LTR) is determined")]
+    [SerializeField] private TextDirection textDirection = TextDirection.Auto;
+    [Tooltip("Control text alignment")]
+    [SerializeField] private TextAlignment textAlignment = TextAlignment.Auto;
+    
+    [Header("Direction-Specific Alignment")]
+    [Tooltip("Alignment to use specifically for LTR text")]
+    [SerializeField] private TextAlignment ltrAlignment = TextAlignment.Left;
+    [Tooltip("Alignment to use specifically for RTL text")]
+    [SerializeField] private TextAlignment rtlAlignment = TextAlignment.Right;
+    [Tooltip("When enabled, uses separate alignment settings for RTL and LTR text")]
+    [SerializeField] private bool useDirectionSpecificAlignment = false;
 
     [Header("Font Settings")]
     [SerializeField] private TMP_FontAsset ltrRegularFont;
@@ -41,6 +79,10 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
 
     [Header("Strikethrough Settings")]
     [SerializeField] private bool enableStrikethrough = false;
+    
+    [Header("RTL Text Settings")]
+    [Tooltip("Set to true to preserve numbers in RTL text (useful for prices)")]
+    [SerializeField] private bool preserveNumbers = true;
 
     [Header("Link Settings")]
     [SerializeField] private bool isClickable = false;
@@ -104,6 +146,9 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
             rtlText.geometrySortingOrder = VertexSortingOrder.Normal;
             rtlText.extraPadding = true;
             rtlText.ForceMeshUpdate();
+            
+            // RTL-specific settings
+            // rtlText.preserveNumbers = preserveNumbers;
         }
     }
 
@@ -119,21 +164,26 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
     {
         if (!string.IsNullOrEmpty(localizationKey) && rtlText != null)
         {
-            // If we're not ignoring text direction, update font & alignment based on RTL or LTR
-            if (!ignoreTextDirection)
-            {
-                UpdateFont();
-                UpdateTextAlignment();
-            }
+            // Get the localized text first
+            string localizedText = LocalizationManager.Instance.GetLocalizedValue(localizationKey);
+            
+            // Always update the font
+            UpdateFont();
+            
+            // Update text direction based on settings
+            UpdateTextDirection();
+            
+            // Update text alignment based on settings
+            UpdateTextAlignment();
 
-            // Regardless of ignoring direction or not, still apply the text changes (highlights, strikethrough, etc.)
-            UpdateTextWithEffects();
+            // Apply text effects (highlights, strikethrough, etc.)
+            ApplyTextEffects(localizedText);
         }
     }
 
     private void UpdateFont()
     {
-        bool isRtl = LocalizationManager.Instance.IsCurrentLanguageRTL();
+        bool isRtl = IsRTLEnabled();
         TMP_FontAsset selectedFont = null;
 
         if (isRtl)
@@ -167,57 +217,218 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void UpdateTextWithEffects()
+    private void ApplyTextEffects(string localizedText)
     {
-        string localizedText = LocalizationManager.Instance.GetLocalizedValue(localizationKey);
-
-        // Apply highlight effect
+        // Apply highlight effect if needed.
         if (!string.IsNullOrEmpty(highlightText) && localizedText.Contains(highlightText))
         {
             string colorHex = ColorUtility.ToHtmlStringRGB(highlightColor);
             localizedText = localizedText.Replace(highlightText, $"<color=#{colorHex}>{highlightText}</color>");
         }
 
-        // Apply strikethrough if enabled
+        // Apply strikethrough effect
         if (enableStrikethrough)
         {
-            localizedText = $"<s>{localizedText}</s>";
+            // Use RTL marker if text is RTL; otherwise, use LTR marker.
+            string marker = IsRTLEnabled() ? "\u200F" : "\u200E";
+            localizedText = $"{marker}<s>{marker}{localizedText}{marker}</s>{marker}";
         }
 
         rtlText.text = localizedText;
     }
 
+
+
+    // Helper method to determine if RTL should be enabled
+    private bool IsRTLEnabled()
+    {
+        switch (textDirection)
+        {
+            case TextDirection.ForceLTR:
+                return false;
+            case TextDirection.ForceRTL:
+                return true;
+            case TextDirection.Auto:
+            default:
+                return LocalizationManager.Instance.IsCurrentLanguageRTL();
+        }
+    }
+    
+    private void UpdateTextDirection()
+    {
+        bool isRtl = IsRTLEnabled();
+        rtlText.isRightToLeftText = isRtl;
+        
+        // Update RTLTMPro-specific settings whenever direction changes
+        // rtlText.preserveNumbers = preserveNumbers;
+    }
+    
     private void UpdateTextAlignment()
     {
-        bool isRtl = LocalizationManager.Instance.IsCurrentLanguageRTL();
-        // If we are ignoring text direction, skip this
-        if (ignoreTextDirection) return;
-
-        // Otherwise, align based on RTL or LTR
-        if (isRtl)
+        bool isRtl = IsRTLEnabled();
+        TextAlignmentOptions alignment;
+        
+        if (useDirectionSpecificAlignment)
         {
-            rtlText.alignment = TextAlignmentOptions.Right; 
+            // Use direction-specific alignment settings
+            if (isRtl)
+            {
+                // For RTL languages
+                alignment = rtlAlignment switch
+                {
+                    TextAlignment.Left => TextAlignmentOptions.Left,
+                    TextAlignment.Center => TextAlignmentOptions.Center,
+                    TextAlignment.Right => TextAlignmentOptions.Right,
+                    _ => TextAlignmentOptions.Right // Default for RTL
+                };
+            }
+            else
+            {
+                // For LTR languages
+                alignment = ltrAlignment switch
+                {
+                    TextAlignment.Left => TextAlignmentOptions.Left,
+                    TextAlignment.Center => TextAlignmentOptions.Center,
+                    TextAlignment.Right => TextAlignmentOptions.Right,
+                    _ => TextAlignmentOptions.Left // Default for LTR
+                };
+            }
         }
         else
         {
-            rtlText.alignment = TextAlignmentOptions.Left; 
+            // Use the original alignment logic
+            switch (textAlignment)
+            {
+                case TextAlignment.Left:
+                    alignment = TextAlignmentOptions.Left;
+                    break;
+                case TextAlignment.Center:
+                    alignment = TextAlignmentOptions.Center;
+                    break;
+                case TextAlignment.Right:
+                    alignment = TextAlignmentOptions.Right;
+                    break;
+                case TextAlignment.Auto:
+                default:
+                    // If Auto alignment, use RTL or LTR default alignment
+                    alignment = isRtl ? TextAlignmentOptions.Right : TextAlignmentOptions.Left;
+                    break;
+            }
         }
+        
+        rtlText.alignment = alignment;
     }
 
     public void SetFontStyle(FontStyle style)
     {
         currentFontStyle = style;
-        // Only update font if direction is not ignored
-        if (!ignoreTextDirection)
-        {
-            UpdateFont();
-        }
+        UpdateFont();
+    }
+    
+    public void SetTextDirection(TextDirection direction)
+    {
+        textDirection = direction;
+        UpdateTextDirection();
+        UpdateFont(); // Font might need to change based on direction
+        UpdateLocalizedText(); // Re-apply everything with proper direction
+    }
+    
+    public void SetTextAlignment(TextAlignment alignment)
+    {
+        textAlignment = alignment;
+        useDirectionSpecificAlignment = false; // Disable direction-specific mode when setting general alignment
+        UpdateTextAlignment();
+    }
+    
+    /// <summary>
+    /// Sets the alignment for LTR text specifically
+    /// </summary>
+    public void SetLTRAlignment(TextAlignment alignment)
+    {
+        ltrAlignment = alignment;
+        useDirectionSpecificAlignment = true;
+        UpdateTextAlignment();
     }
 
+    /// <summary>
+    /// Sets the alignment for RTL text specifically
+    /// </summary>
+    public void SetRTLAlignment(TextAlignment alignment)
+    {
+        rtlAlignment = alignment;
+        useDirectionSpecificAlignment = true;
+        UpdateTextAlignment();
+    }
+
+    /// <summary>
+    /// Enables direction-specific alignment mode
+    /// </summary>
+    public void EnableDirectionSpecificAlignment(bool enable)
+    {
+        useDirectionSpecificAlignment = enable;
+        UpdateTextAlignment();
+    }
+
+    /// <summary>
+    /// Sets both RTL and LTR alignments at once and enables direction-specific mode
+    /// </summary>
+    public void SetDirectionSpecificAlignments(TextAlignment ltrAlign, TextAlignment rtlAlign)
+    {
+        ltrAlignment = ltrAlign;
+        rtlAlignment = rtlAlign;
+        useDirectionSpecificAlignment = true;
+        UpdateTextAlignment();
+    }
+    
+    /// <summary>
+    /// Configure common alignment patterns with one method call
+    /// </summary>
+    /// <param name="alignmentPattern">Predefined alignment pattern to apply</param>
+    public void SetAlignmentPattern(AlignmentPattern alignmentPattern)
+    {
+        switch (alignmentPattern)
+        {
+            case AlignmentPattern.NaturalAlignment:
+                // LTR left-aligned, RTL right-aligned (reading direction)
+                SetDirectionSpecificAlignments(TextAlignment.Left, TextAlignment.Right);
+                break;
+                
+            case AlignmentPattern.ReverseAlignment:
+                // LTR right-aligned, RTL left-aligned (opposite of reading direction)
+                SetDirectionSpecificAlignments(TextAlignment.Right, TextAlignment.Left);
+                break;
+                
+            case AlignmentPattern.AllCenter:
+                // Both LTR and RTL center-aligned
+                SetDirectionSpecificAlignments(TextAlignment.Center, TextAlignment.Center);
+                break;
+                
+            case AlignmentPattern.AllLeft:
+                // Force left alignment regardless of direction
+                SetDirectionSpecificAlignments(TextAlignment.Left, TextAlignment.Left);
+                break;
+                
+            case AlignmentPattern.AllRight:
+                // Force right alignment regardless of direction
+                SetDirectionSpecificAlignments(TextAlignment.Right, TextAlignment.Right);
+                break;
+        }
+    }
+    
     public void SetStrikethrough(bool enable)
     {
         enableStrikethrough = enable;
-        UpdateTextWithEffects();
+        UpdateLocalizedText();
+    }
+    
+    public void SetPreserveNumbers(bool preserve)
+    {
+        preserveNumbers = preserve;
+        if (rtlText != null)
+        {
+            // rtlText.preserveNumbers = preserveNumbers;
+            UpdateLocalizedText();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

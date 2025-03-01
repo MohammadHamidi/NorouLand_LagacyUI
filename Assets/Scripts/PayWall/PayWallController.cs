@@ -17,6 +17,8 @@ public class PayWallController : MonoBehaviour
     
     [Header("Plan Configurations")]
     [SerializeField] private PlanConfig[] planConfigs;
+    [SerializeField] private int defaultSelectedIndex = 1; // Default to the second option (0-based index)
+    [SerializeField] private bool manualPlanPopulation = false; // When true, plans are populated manually from inspector
     
     private List<PayWallPlanButton> planButtons = new List<PayWallPlanButton>();
     private string selectedPlanKey;
@@ -61,27 +63,73 @@ public class PayWallController : MonoBehaviour
         }
         planButtons.Clear();
         
-        // Create new buttons based on config
-        foreach (PlanConfig config in planConfigs)
+        if (!manualPlanPopulation)
         {
-            PayWallPlanButton planButton = Instantiate(planButtonPrefab, planButtonsContainer);
-            planButton.Setup(
-                config.planKey, 
-                config.duration, 
-                config.originalPrice, 
-                config.discountedPrice, 
-                config.pricePerMonth, 
-                config.planType, 
-                this, 
-                isRTL
-            );
-            
-            planButtons.Add(planButton);
-            
-            // Set default selection
-            if (config.defaultSelected)
+            // Create new buttons based on config
+            for (int i = 0; i < planConfigs.Length; i++)
             {
-                SelectPlan(config.planKey);
+                PlanConfig config = planConfigs[i];
+                PayWallPlanButton planButton = Instantiate(planButtonPrefab, planButtonsContainer);
+                planButton.Setup(
+                    config.planKey, 
+                    config.duration, 
+                    config.originalPrice, 
+                    config.discountedPrice, 
+                    config.pricePerMonth, 
+                    config.planType, 
+                    this, 
+                    isRTL
+                );
+                
+                planButtons.Add(planButton);
+            }
+        }
+        else
+        {
+            // When using manual population, collect existing plan buttons in the container
+            foreach (Transform child in planButtonsContainer)
+            {
+                PayWallPlanButton planButton = child.GetComponent<PayWallPlanButton>();
+                if (planButton != null)
+                {
+                    // Register the controller with the button
+                    planButton.SetController(this, isRTL);
+                    planButtons.Add(planButton);
+                }
+            }
+        }
+        
+        if (planButtons.Count > 0)
+        {
+            // Select default plan based on index
+            if (defaultSelectedIndex >= 0 && defaultSelectedIndex < planButtons.Count)
+            {
+                SelectPlan(planButtons[defaultSelectedIndex].GetPlanKey());
+            }
+            else if (!manualPlanPopulation)
+            {
+                // Fallback to the first plan with defaultSelected=true in the config
+                bool foundDefault = false;
+                foreach (PlanConfig config in planConfigs)
+                {
+                    if (config.defaultSelected)
+                    {
+                        SelectPlan(config.planKey);
+                        foundDefault = true;
+                        break;
+                    }
+                }
+                
+                // If no default is specified, select the first one
+                if (!foundDefault)
+                {
+                    SelectPlan(planButtons[0].GetPlanKey());
+                }
+            }
+            else
+            {
+                // For manual population, just select the first one if no valid index
+                SelectPlan(planButtons[0].GetPlanKey());
             }
         }
     }
@@ -94,6 +142,15 @@ public class PayWallController : MonoBehaviour
         foreach (PayWallPlanButton button in planButtons)
         {
             button.SetSelected(button.GetPlanKey() == planKey);
+        }
+    }
+    
+    // New method to select plan by index
+    public void SelectPlanByIndex(int index)
+    {
+        if (index >= 0 && index < planButtons.Count)
+        {
+            SelectPlan(planButtons[index].GetPlanKey());
         }
     }
     

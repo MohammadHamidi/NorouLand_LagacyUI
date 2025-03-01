@@ -170,7 +170,7 @@ namespace LocalizationSystem
     { "plan_screen_plan3_duration", "1 Year" },
     { "plan_screen_plan3_label", "Economical" },
     { "plan_screen_plan3_original_price", "399.000T" },
-    { "plan_screen_plan3_discounted_price", "340.000T" },
+    { "plan_screen_plan3_d", "340.000T" },
     { "plan_screen_plan3_monthly_price", "28.000T/Month" },
     { "plan_screen_review_name", "Mahboube" },
     { "plan_screen_review_rating", "★★★★★" },

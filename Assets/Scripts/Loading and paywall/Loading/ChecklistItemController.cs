@@ -6,11 +6,14 @@ public class ChecklistItemController : MonoBehaviour
 {
     private CanvasGroup canvasGroup;
     private bool isComplete;
-
+    Tween tween;
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-
+        if (canvasGroup==null)
+        {
+            canvasGroup=gameObject.AddComponent<CanvasGroup>();
+        }
         // Initialize all items as "incomplete" with alpha = 0.7
         canvasGroup.alpha = 0.2f;
         isComplete = false;
@@ -25,7 +28,7 @@ public class ChecklistItemController : MonoBehaviour
         isComplete = true;
 
         // Animate alpha to 1
-        DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1f, 0.3f)
+       tween= DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1f, 0.3f)
             .SetEase(Ease.OutQuad);
     }
 
@@ -34,7 +37,10 @@ public class ChecklistItemController : MonoBehaviour
     /// </summary>
     public void ResetToIncomplete()
     {
-        DOTween.Kill(canvasGroup);
+        if (tween == null)return;
+        if (!isComplete)return;
+
+        tween.Kill();
         isComplete = false;
         canvasGroup.alpha = 0.2f;
     }

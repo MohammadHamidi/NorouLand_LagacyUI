@@ -2,10 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class PayWallPlanButton : MonoBehaviour
 {
@@ -26,12 +22,14 @@ public class PayWallPlanButton : MonoBehaviour
     [SerializeField] private Color selectedBorderColor = new Color(1f, 0.6f, 0f); // Orange
     [SerializeField] private Color deselectedBorderColor = new Color(0.9f, 0.9f, 0.9f); // Light gray
 
-    private string planKey;
-    private string planDuration;
-    private float originalPrice;
-    private float discountedPrice;
-    private float pricePerMonth;
-    private PlanType planType;
+    [Header("Manual Setup (For Inspector Configuration)")]
+    [SerializeField] private string planKey;
+    [SerializeField] private string planDuration;
+    [SerializeField] private float originalPrice;
+    [SerializeField] private float discountedPrice;
+    [SerializeField] private float pricePerMonth;
+    [SerializeField] private PlanType planType;
+
     private PayWallController controller;
     private bool isSelected = false;
 
@@ -45,6 +43,12 @@ public class PayWallPlanButton : MonoBehaviour
     private void Start()
     {
         UpdateVisualState(false);
+        
+        // Set button event
+        if (selectionButton != null)
+        {
+            selectionButton.onClick.AddListener(OnButtonClicked);
+        }
     }
 
     // Setup method to be called after instantiating the prefab
@@ -89,6 +93,7 @@ public class PayWallPlanButton : MonoBehaviour
         // Set button event
         if (selectionButton != null)
         {
+            selectionButton.onClick.RemoveAllListeners();
             selectionButton.onClick.AddListener(OnButtonClicked);
         }
         
@@ -108,6 +113,26 @@ public class PayWallPlanButton : MonoBehaviour
         
         // Set initial selection state (deselected)
         UpdateVisualState(false);
+    }
+    
+    // For manually configured buttons from inspector
+    public void SetController(PayWallController parentController, bool isRTL)
+    {
+        controller = parentController;
+        
+        // Apply text direction without changing the content
+        ApplyTextDirection(isRTL);
+        
+        // Make sure tags are properly set
+        if (popularTagObject != null)
+        {
+            popularTagObject.SetActive(planType == PlanType.Popular);
+        }
+        
+        if (economicalTagObject != null)
+        {
+            economicalTagObject.SetActive(planType == PlanType.Economical);
+        }
     }
     
     public void ApplyTextDirection(bool isRTL)
