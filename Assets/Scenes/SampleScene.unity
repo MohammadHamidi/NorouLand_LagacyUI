@@ -136,19 +136,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_fontSize
-      value: 41.15
+      value: 30.65
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: originalText
       value: parent_option
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: m_enableVertexGradient
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5889584414861624267, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_Name
       value: parent_option
       objectReference: {fileID: 0}
     - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: ltrAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: rtlAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: localizationKey
       value: parent_option
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: useDirectionSpecificAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_Pivot.x
@@ -1310,6 +1326,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -2638,6 +2655,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -2815,6 +2833,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -3778,6 +3797,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 1
   linkColor: {r: 0, g: 0, b: 1, a: 1}
@@ -4329,6 +4349,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -4876,6 +4897,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -6882,6 +6904,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490812507}
+  - component: {fileID: 490812508}
   m_Layer: 5
   m_Name: Plan Option 3
   m_TagString: Untagged
@@ -6909,6 +6932,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 984, y: 276}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &490812508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490812506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355fb45ffe84db94589081e7729fed6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleText: {fileID: 0}
+  priceText: {fileID: 0}
+  discountedPriceText: {fileID: 0}
+  pricePerMonthText: {fileID: 0}
+  backgroundImage: {fileID: 0}
+  selectionBorder: {fileID: 0}
+  selectionButton: {fileID: 0}
+  popularTagObject: {fileID: 0}
+  economicalTagObject: {fileID: 0}
+  selectedColor: {r: 1, g: 0.91764706, b: 0.7882353, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedBorderColor: {r: 1, g: 0.6, b: 0, a: 1}
+  deselectedBorderColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  planKey: 
+  planDuration: 
+  originalPrice: 0
+  discountedPrice: 0
+  pricePerMonth: 0
+  planType: 0
 --- !u!1001 &502221781
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7776,6 +7830,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0, b: 1, a: 1}
@@ -8116,7 +8171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -8156,11 +8211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -34.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8525,6 +8580,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -9250,6 +9306,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -9544,7 +9601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -123.67499}
+  m_AnchoredPosition: {x: 0, y: -123.674805}
   m_SizeDelta: {x: 0, y: -574.8501}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &718358964
@@ -9631,6 +9688,10 @@ MonoBehaviour:
   planConfigs: []
   defaultSelectedIndex: 1
   manualPlanPopulation: 1
+  planButtons:
+  - {fileID: 7131392012459431111}
+  - {fileID: 773470035}
+  - {fileID: 490812508}
 --- !u!1 &721500324
 GameObject:
   m_ObjectHideFlags: 0
@@ -10361,6 +10422,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -10376,6 +10438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 773470034}
+  - component: {fileID: 773470035}
   m_Layer: 5
   m_Name: Plan Option 2
   m_TagString: Untagged
@@ -10403,6 +10466,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 984, y: 276}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &773470035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773470033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355fb45ffe84db94589081e7729fed6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleText: {fileID: 0}
+  priceText: {fileID: 0}
+  discountedPriceText: {fileID: 0}
+  pricePerMonthText: {fileID: 0}
+  backgroundImage: {fileID: 0}
+  selectionBorder: {fileID: 0}
+  selectionButton: {fileID: 0}
+  popularTagObject: {fileID: 0}
+  economicalTagObject: {fileID: 0}
+  selectedColor: {r: 1, g: 0.91764706, b: 0.7882353, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedBorderColor: {r: 1, g: 0.6, b: 0, a: 1}
+  deselectedBorderColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  planKey: 
+  planDuration: 
+  originalPrice: 0
+  discountedPrice: 0
+  pricePerMonth: 0
+  planType: 0
 --- !u!1 &779664732
 GameObject:
   m_ObjectHideFlags: 0
@@ -11207,7 +11301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &820352884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11299,9 +11393,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1304706630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -42.85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 85.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &822287851
@@ -12897,6 +12991,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0, b: 1, a: 1}
@@ -12980,7 +13075,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -13020,11 +13115,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -34.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13459,7 +13554,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &990514196
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13948,7 +14043,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_text
-      value: Neurolan
+      value: Neuroland
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_fontSize
@@ -14018,6 +14113,10 @@ PrefabInstance:
       propertyPath: localizationKey
       value: invest_future_step1_title
       objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: strikethroughImage
+      value: 
+      objectReference: {fileID: 1386875223}
     - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: enableStrikethrough
       value: 1
@@ -14432,6 +14531,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1001117283}
+  - {fileID: 1386875222}
   m_Father: {fileID: 1135687149}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -14782,9 +14882,9 @@ RectTransform:
   - {fileID: 1304706630}
   m_Father: {fileID: 14971902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 492, y: -338.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 282.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1049748623
@@ -14902,7 +15002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_fontSize
-      value: 60.95
+      value: 45.4
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: originalText
@@ -14917,12 +15017,24 @@ PrefabInstance:
       value: get_ready
       objectReference: {fileID: 0}
     - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: ltrAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: rtlAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: localizationKey
       value: get_ready
       objectReference: {fileID: 0}
     - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: currentFontStyle
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: useDirectionSpecificAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_Pivot.x
@@ -15755,9 +15867,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1389088392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -42.85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 85.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1126934044
@@ -16275,7 +16387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 44.39499, y: -422.65}
+  m_AnchoredPosition: {x: 44.395, y: -422.65}
   m_SizeDelta: {x: 88.79, y: 845.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1166964559
@@ -16981,9 +17093,9 @@ RectTransform:
   - {fileID: 863518779}
   m_Father: {fileID: 14971902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 492, y: -98.600006}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 767.6, y: 197.20001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1208742388
@@ -17367,6 +17479,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0, b: 1, a: 1}
@@ -17920,6 +18033,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0, b: 1, a: 1}
@@ -17960,7 +18074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_fontSize
-      value: 41.15
+      value: 30.65
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: originalText
@@ -17982,13 +18096,33 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4281348144
       objectReference: {fileID: 0}
+    - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: m_enableVertexGradient
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5889584414861624267, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_Name
       value: child_option
       objectReference: {fileID: 0}
     - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: ltrAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: rtlAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: localizationKey
       value: child_option
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: useDirectionSpecificAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_Pivot.x
@@ -18328,9 +18462,9 @@ RectTransform:
   - {fileID: 1985082399}
   m_Father: {fileID: 1049748622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -262.25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 85.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1304706631
@@ -18741,6 +18875,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -19213,7 +19348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1363942563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19669,6 +19804,81 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+--- !u!1 &1386875221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1386875222}
+  - component: {fileID: 1386875224}
+  - component: {fileID: 1386875223}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1386875222
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386875221}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1040587552}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -202.25, y: -3.3}
+  m_SizeDelta: {x: 404.5, y: 10}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1386875223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386875221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 425eb3b89453c2941b97787d0942c1b1, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 20
+--- !u!222 &1386875224
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386875221}
+  m_CullTransparentMesh: 1
 --- !u!1 &1387426944
 GameObject:
   m_ObjectHideFlags: 0
@@ -19840,6 +20050,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -19887,9 +20098,9 @@ RectTransform:
   - {fileID: 956501881}
   m_Father: {fileID: 1049748622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -42.85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 85.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1389088393
@@ -19973,19 +20184,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_fontSize
-      value: 58.3
+      value: 59.25
       objectReference: {fileID: 0}
     - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: originalText
       value: who_uses_app
+      objectReference: {fileID: 0}
+    - target: {fileID: 4635975767362879223, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5889584414861624267, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_Name
       value: who_uses_app
       objectReference: {fileID: 0}
     - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: ltrAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: rtlAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: localizationKey
       value: who_uses_app
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: useDirectionSpecificAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_Pivot.x
@@ -21127,7 +21354,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -32.000244}
+  m_AnchoredPosition: {x: 0, y: -32}
   m_SizeDelta: {x: -96, y: -256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1458332691
@@ -21342,7 +21569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.808}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -4.4833984}
+  m_AnchoredPosition: {x: 0, y: -4.484375}
   m_SizeDelta: {x: 984, y: 9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1469855316
@@ -21852,7 +22079,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -32.000244}
+  m_AnchoredPosition: {x: 0, y: -32}
   m_SizeDelta: {x: -96, y: -256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1495724850
@@ -24756,6 +24983,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -25218,6 +25446,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0, b: 1, a: 1}
@@ -25757,6 +25986,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -26103,7 +26333,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -32.000244}
+  m_AnchoredPosition: {x: 0, y: -32}
   m_SizeDelta: {x: -96, y: -256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1769860584
@@ -26890,9 +27120,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2064545883}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -42.85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 85.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1813872716
@@ -27332,7 +27562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -32.000244}
+  m_AnchoredPosition: {x: 0, y: -32}
   m_SizeDelta: {x: -96, y: -256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1849374599
@@ -27728,6 +27958,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -29258,7 +29489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -29298,11 +29529,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -34.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -29518,6 +29749,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 1
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -30726,9 +30958,9 @@ RectTransform:
   - {fileID: 617287187}
   m_Father: {fileID: 1049748622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -152.54999}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 85.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2064545884
@@ -31073,6 +31305,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0, b: 1, a: 1}
@@ -31262,6 +31495,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}
@@ -31693,8 +31927,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Text - RTLTMP
       objectReference: {fileID: 0}
+    - target: {fileID: 5889584414861624267, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: ltrAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: rtlAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
       propertyPath: currentFontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503436698695087978, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
+      propertyPath: useDirectionSpecificAlignment
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7794084997994926475, guid: cabe279311de54d65aa51bc34ff0bba2, type: 3}
@@ -32289,7 +32539,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2212178194170497540}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -32609,6 +32859,7 @@ MonoBehaviour:
   highlightText: 60%
   highlightColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   enableStrikethrough: 0
+  strikethroughImage: {fileID: 0}
   preserveNumbers: 1
   isClickable: 0
   linkColor: {r: 0, g: 0.33333334, b: 1, a: 1}

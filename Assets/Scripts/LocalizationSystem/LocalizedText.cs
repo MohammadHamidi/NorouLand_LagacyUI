@@ -5,6 +5,7 @@ using LocalizationSystem;
 using RTLTMPro;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI; // For the Image component
 
 public enum FontStyle
 {
@@ -79,6 +80,7 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
 
     [Header("Strikethrough Settings")]
     [SerializeField] private bool enableStrikethrough = false;
+    [SerializeField] private Image strikethroughImage; // Reference to the sprite image
     
     [Header("RTL Text Settings")]
     [Tooltip("Set to true to preserve numbers in RTL text (useful for prices)")]
@@ -121,6 +123,12 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
             initialized = true;
         }
 
+        // Create strikethrough image if it doesn't exist
+        if (strikethroughImage == null)
+        {
+            CreateStrikethroughImage();
+        }
+
         SetupTextQuality();
 
         if (LocalizationManager.Instance != null)
@@ -132,6 +140,23 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
         {
             Debug.LogError("LocalizationManager instance is null. Make sure it is initialized and present in the scene.");
         }
+    }
+
+    private void CreateStrikethroughImage()
+    {
+        // Create a new GameObject for the strikethrough image
+        GameObject strikethroughObj = new GameObject("StrikethroughLine");
+        strikethroughObj.transform.SetParent(transform);
+        
+        // Add an Image component
+        strikethroughImage = strikethroughObj.AddComponent<Image>();
+        
+        // Set default properties
+        strikethroughImage.rectTransform.pivot = new Vector2(0, 0.5f); // Set pivot to left-center
+        strikethroughImage.color = rtlText.color; // Default to text color
+        
+        // Initially hide the image
+        strikethroughImage.enabled = false;
     }
 
     private void SetupTextQuality()
@@ -176,8 +201,11 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
             // Update text alignment based on settings
             UpdateTextAlignment();
 
-            // Apply text effects (highlights, strikethrough, etc.)
+            // Apply text effects (highlights)
             ApplyTextEffects(localizedText);
+            
+            // Apply strikethrough separately using the sprite
+            UpdateStrikethrough();
         }
     }
 
@@ -226,18 +254,68 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
             localizedText = localizedText.Replace(highlightText, $"<color=#{colorHex}>{highlightText}</color>");
         }
 
-        // Apply strikethrough effect
-        if (enableStrikethrough)
-        {
-            // Use RTL marker if text is RTL; otherwise, use LTR marker.
-            string marker = IsRTLEnabled() ? "\u200F" : "\u200E";
-            localizedText = $"{marker}<s>{marker}{localizedText}{marker}</s>{marker}";
-        }
-
+        // Set the text (without strikethrough tags)
         rtlText.text = localizedText;
     }
 
+    private void UpdateStrikethrough()
+    {
+        if (strikethroughImage == null)
+        {
+            CreateStrikethroughImage();
+        }
 
+        // Enable/disable the strikethrough image based on the setting
+        strikethroughImage.enabled = enableStrikethrough;
+        
+        if (enableStrikethrough)
+        {
+            // Force mesh update to ensure text metrics are current
+            rtlText.ForceMeshUpdate();
+            
+            // Get the text bounds
+            Vector2 textSize = rtlText.GetRenderedValues(false); // Use false to get exact text size
+            
+            // Get the preferredHeight of the text (for vertical position)
+            float textHeight = rtlText.preferredHeight;
+            
+            // Position the strikethrough in the middle of the text
+            RectTransform textRectTransform = rtlText.rectTransform;
+            RectTransform strikethroughRect = strikethroughImage.rectTransform;
+            
+            // Calculate the position of the strikethrough
+            Vector2 textMin = rtlText.bounds.min;
+            Vector2 textMax = rtlText.bounds.max;
+            float yPosition = textMin.y + (textMax.y - textMin.y) * 0.5f;
+            
+            // Set the position, width and height of the strikethrough
+            strikethroughRect.anchoredPosition = new Vector2(0, 0);
+            strikethroughRect.sizeDelta = new Vector2(textSize.x, 4f); // 4 pixels height for the line (twice the original size)
+            
+            // Adjust position based on text alignment
+            TextAlignmentOptions alignment = rtlText.alignment;
+            float offsetX = 0;
+            
+            // Position the strikethrough
+            if (IsRTLEnabled())
+            {
+                // For RTL text
+                strikethroughRect.anchorMin = new Vector2(1, 0.5f);
+                strikethroughRect.anchorMax = new Vector2(1, 0.5f);
+                strikethroughRect.pivot = new Vector2(1, 0.5f);
+            }
+            else
+            {
+                // For LTR text
+                strikethroughRect.anchorMin = new Vector2(0, 0.5f);
+                strikethroughRect.anchorMax = new Vector2(0, 0.5f);
+                strikethroughRect.pivot = new Vector2(0, 0.5f);
+            }
+            
+            // Set the color of the strikethrough to match the text
+            strikethroughImage.color = rtlText.color;
+        }
+    }
 
     // Helper method to determine if RTL should be enabled
     private bool IsRTLEnabled()
@@ -338,6 +416,7 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
         textAlignment = alignment;
         useDirectionSpecificAlignment = false; // Disable direction-specific mode when setting general alignment
         UpdateTextAlignment();
+        UpdateStrikethrough(); // Update strikethrough position after alignment change
     }
     
     /// <summary>
@@ -348,6 +427,7 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
         ltrAlignment = alignment;
         useDirectionSpecificAlignment = true;
         UpdateTextAlignment();
+        UpdateStrikethrough(); // Update strikethrough position after alignment change
     }
 
     /// <summary>
@@ -358,6 +438,7 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
         rtlAlignment = alignment;
         useDirectionSpecificAlignment = true;
         UpdateTextAlignment();
+        UpdateStrikethrough(); // Update strikethrough position after alignment change
     }
 
     /// <summary>
@@ -367,6 +448,7 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
     {
         useDirectionSpecificAlignment = enable;
         UpdateTextAlignment();
+        UpdateStrikethrough(); // Update strikethrough position after alignment change
     }
 
     /// <summary>
@@ -378,6 +460,7 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
         rtlAlignment = rtlAlign;
         useDirectionSpecificAlignment = true;
         UpdateTextAlignment();
+        UpdateStrikethrough(); // Update strikethrough position after alignment change
     }
     
     /// <summary>
@@ -418,7 +501,7 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
     public void SetStrikethrough(bool enable)
     {
         enableStrikethrough = enable;
-        UpdateLocalizedText();
+        UpdateStrikethrough();
     }
     
     public void SetPreserveNumbers(bool preserve)
@@ -444,6 +527,17 @@ public class LocalizedText : MonoBehaviour, IPointerClickHandler
         if (FindObjectOfType<EventSystem>() == null)
         {
             Debug.LogWarning("No EventSystem found in the scene. Please add one for click detection to work.");
+        }
+    }
+    
+    // Called when text size changes - ensures strikethrough stays aligned
+    private void LateUpdate()
+    {
+        if (enableStrikethrough && strikethroughImage != null && strikethroughImage.enabled)
+        {
+            // Check if text has changed size or position since last frame
+            rtlText.ForceMeshUpdate();
+            UpdateStrikethrough();
         }
     }
 }

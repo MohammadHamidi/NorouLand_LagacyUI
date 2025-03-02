@@ -19,7 +19,7 @@ public class PayWallController : MonoBehaviour
     [SerializeField] private PlanConfig[] planConfigs;
     [SerializeField] private int defaultSelectedIndex = 1; // Default to the second option (0-based index)
     [SerializeField] private bool manualPlanPopulation = false; // When true, plans are populated manually from inspector
-    
+    [SerializeField]
     private List<PayWallPlanButton> planButtons = new List<PayWallPlanButton>();
     private string selectedPlanKey;
     private bool isRTL;
@@ -56,15 +56,28 @@ public class PayWallController : MonoBehaviour
     
     private void InitializePlans()
     {
-        // Clear any existing buttons
-        foreach (Transform child in planButtonsContainer)
+        if (manualPlanPopulation)
         {
-            Destroy(child.gameObject);
+            // When using manual population, use existing plan buttons from the inspector
+            // Just update their settings and register the controller
+            foreach (PayWallPlanButton planButton in planButtons)
+            {
+                if (planButton != null)
+                {
+                    // Register the controller with the button
+                    planButton.SetController(this, isRTL);
+                }
+            }
         }
-        planButtons.Clear();
-        
-        if (!manualPlanPopulation)
+        else
         {
+            // For dynamic population, clear any existing buttons first
+            foreach (Transform child in planButtonsContainer)
+            {
+                Destroy(child.gameObject);
+            }
+            planButtons.Clear();
+
             // Create new buttons based on config
             for (int i = 0; i < planConfigs.Length; i++)
             {
@@ -82,20 +95,6 @@ public class PayWallController : MonoBehaviour
                 );
                 
                 planButtons.Add(planButton);
-            }
-        }
-        else
-        {
-            // When using manual population, collect existing plan buttons in the container
-            foreach (Transform child in planButtonsContainer)
-            {
-                PayWallPlanButton planButton = child.GetComponent<PayWallPlanButton>();
-                if (planButton != null)
-                {
-                    // Register the controller with the button
-                    planButton.SetController(this, isRTL);
-                    planButtons.Add(planButton);
-                }
             }
         }
         

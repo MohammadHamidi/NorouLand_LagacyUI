@@ -26,7 +26,7 @@ namespace LocalizationSystem
         
 
             // Set default language (English)
-            SetLanguage(LanguageOption.Farsi);
+            SetLanguage(LanguageOption.English);
         }
 
         public void SetLanguage(LanguageOption lang)
